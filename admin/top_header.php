@@ -37,10 +37,10 @@ include_once 'data/functions.php';
     <link href="css/lib/owl.theme.default.min.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet">
        
-    <script src="../js/sweetalert.min.js" type="text/javascript"></script>
+    
     <script src="../js/custom.js" type="text/javascript"></script>   
     <script type="text/javascript" src="../js/jquery.min.js"></script>   
     <script src="../js/custom_admin.js" type="text/javascript"></script>
-    
-    
+    <script src="../js/sweetalert.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.min.js" type="text/javascript"></script>
 </head>

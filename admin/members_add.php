@@ -1,12 +1,10 @@
 <?php
 include_once './header.php';
 include_once './sidebar.php';
-include_once 'data/user_detail_data.php';
+include_once 'data/members_add_data.php';
 include_once 'data/functions.php';
 include_once 'data/database.php';
 
-//include_once 'data/functions.php';
-include_once 'data/members_add_data.php';
 
 if (!empty($_GET['error'])) {
     $error = $_GET['error']; 
@@ -23,12 +21,12 @@ if (!empty($_GET['error'])) {
     
      <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Player Details</h3> </div>
+                    <h3 class="text-primary" style="text-transform: uppercase;"><?=$row['m_type']?> Details</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Player Group</a></li>
-                        <li class="breadcrumb-item active">Player Detail</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)"><?=$row['m_type']?> Group</a></li>
+                        <li class="breadcrumb-item active"><?=$row['m_type']?>  Detail</li>
                     </ol>
                 </div>
             </div>
@@ -42,19 +40,27 @@ if (!empty($_GET['error'])) {
 <div class="card">
     
         <div class="card-title">
-                                <h2>Add New Player</h2>
+            
+                                <?php if($user_id!=''){
+                                    
+                                    
+                                    echo '<h2>Update '.$row['m_type'].'</h2>';
+                                    
+                                    
+                                }else{
+                                    
+                                     echo '<h2>Add New '.$type.'</h2>';
+                                }
+                               
+                                ?>
 
         
         </div>
-			  
 	<div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-6">
             
-         
-            <hr>
-            <!-- /.box-header -->
-	
+        
             <div class="box-body">
 			
 			<?php if($error != '') { ?>
@@ -77,178 +83,179 @@ if (!empty($_GET['error'])) {
               </div>  
             <?php } ?>
 			
-	
-                <form action="data/register_newmember.php" class="templatemo-login-form" method="post" enctype="multipart/form-data" name="registration_members">
-        
-			
+			<?php
+ if($user_id != ''){ ?>
+                <form action="data/register_members.php" class="templatemo-login-form" method="post" enctype="multipart/form-data" name="update_members">
+                <input type="hidden" name="id" value="<?php echo $user_id; ?>">
+                <input type="hidden" name="action" value="update">
+                                
+            <?php }else{  ?>
+                
+                
+                <form action="data/register_members.php" class="templatemo-login-form" method="post" enctype="multipart/form-data" name="update_members">
+                <input type="hidden" name="action" value="register">
+                
+            <?php }?>
 			<div class="row form-group">						
 				<div class="col-lg-6 col-md-6 form-group">
-                                    <div class="profile_image" >
-					<?php if($m_pic == ''){ ?>
-                                            <img src="../images/user.png" class="img-circle profile_image" alt="User Image" style="max-height: 100px">
+					<div class="user_image">
+					<?php if($row['m_pic'] == ''){ ?>
+                                            <img name="user_image" id="profile_image"  src="../uploads/profile/avt.png" class="img-circle profile_image" style="max-height:150px;width:auto">
 					<?php } else { ?>
-						<img src="../uploads/profile/<?= $m_pic; ?>" class="img-circle profile_image" alt="<?php echo $m_username; ?>">
+                                                <img name="user_image" id="profile_image"  src="../uploads/profile/<?= $row['m_pic']; ?>" class="img-circle profile_image" style="max-height:150px;width:auto">
 					<?php } ?>
 					</div>
-					<div class="upload_picture">
-					<label class="control-label templatemo-block" id="upload_label">Upload Picture :</label> 
-					<input type="file" name="fileToUpload" id="fileToUpload" class="filestyle" data-buttonName="btn-primary" data-buttonBefore="true" data-icon="false" accept="image/*"> 
-					</div>
+                                    
+                                   
+					
 				</div>
 			</div>
-			
+                
+                   <div class="input-group">
+                                                        
+                                        <input type="file" name="user_profile_image" id="user_profile_image" class="form-control"  placeholder="Username" aria-describedby="inputGroupPrepend" style="display: none;align-content: center" />
+                                         <input type="button" style="width: 100px"value="Browse" id="browse_image" class="btn btn-block btn-success"/>
+
+                                    </div> 
+                    <br>
 				<div class="row form-group">
+                                    
+                                    
 					<div class="col-lg-6 col-md-6 form-group">                  
-						<label>Username :</label>
-                                                <input type="text" class="form-control" id="user_name" placeholder="Username" name="user_name" required>                            
+						<label>Login Name :</label>
+                                                <input type="text" class="form-control" id="user_name" placeholder="Username" name="user_name" value="<?php echo $row['m_username']; ?>" required>                            
 					</div>
-					<div class="col-lg-6 col-md-6 form-group">                  
+					
+                                     
+                                    
+                                  
+                                    <?php if($user_id==''){?>
+                                     <div class="col-lg-6 col-md-6 form-group">                  
 						<label>Password :</label>
-                                                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>                            
-					</div>
+                                                <input type="password" class="form-control" id="password"  name="password" autocomplete="off" required>                            
+				     </div>
+                                    <?php } ?>
+                                    
+                                            <div class="col-lg-6 col-md-6 form-group">                  
+                                                          <label>Refer By :</label>
+
+                                                          <select class="form-control" name="user_member_reference" id="user_member_reference">
+                                                                    <?php                                                             
+                                                                       $database->loadAllUsers($row['m_upline']);
+                                                                    ?>
+                                                         </select>
+                                          </div>
+                                    
 				</div>
+                                    
+                                <hr>
 				
 				<div class="row form-group">
+                                       
 					<div class="col-lg-6 col-md-6 form-group">                  
 						<label>Full Name :</label>
-						<input type="text" class="form-control" id="full_name" placeholder="Full Name" name="full_name"  title="Enter a valid Name">                            
+						<input type="text" class="form-control" id="m_name" placeholder="First Name" name="m_name" value="<?php echo $row['m_name'] ; ?>" title="Enter a valid Name">                            
 					</div>
+                               
 					<div class="col-lg-6 col-md-6 form-group">                  
 						<label>Email :</label>
-                                                <input type="email" class="form-control" id="email" placeholder="Email" name="email"  title="Enter a valid email" required>                            
+						<input type="text" class="form-control" id="m_email" placeholder="Email" name="m_email" value="<?php echo $row['m_email']; ?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Enter a valid email">                            
 					</div>
                                     
-                                       <div class="col-lg-6 col-md-6 form-group">                  
-						<label>User Refer By :</label>
-                             
-                                                <select class="form-control" name="user_member_reference" id="user_member_reference" required>
-                                                          <?php                                                             
-                                                             $database->loadAllUsers($row['m_upline']);
-                                                          ?>
-                                               </select>
-					</div>
-                                    
-                                        <div class="col-lg-6 col-md-6 form-group">
-                                        <label>User Type</label>
-                                        <select class="form-control" name="user_type" id="user_type" required>
-                                                   
-                                                          <?php
-                                                             $database-> loadAllUsersType($row['m_type']);
-                                                            ?>
-                                        </select>
-						 
-                                    </div>
-				</div>
-				
-				<div class="row form-group">
-					<div class="col-lg-6 col-md-6 form-group">                  
-                                                <label>Phone :</label>
-                                                <input type="number" class="form-control" id="phone" placeholder="Phone" name="phone" required> 						
-					</div>
-					<div class="col-lg-6 col-md-6 form-group">                  
+                                   <div class="col-lg-6 col-md-6 form-group">                  
 						<label>Date of Birth :</label>
-						<input type="date" class="form-control " id="dob" placeholder="Date of Birth" name="dob">                            
+						<input type="date" class="form-control" id="m_dob" placeholder="Date of Birth" name="m_dob" value="<?php echo $row['m_dob']; ?>" >                            
 					</div>
+                                    
+                                    <div class="col-lg-6 col-md-6 form-group">                  
+						<label >Mobile Number :</label>
+						
+						<input type="text" class="form-control" id="m_phone" placeholder="Phone" name="m_phone" value="<?php echo $row['m_phone']; ?>"> 						
+					</div>
+
 				</div>
 				
 				<div class="row form-group">
 					
 					<div class="col-lg-6 col-md-6 form-group">                  
-						<label>Security Password :</label>
-						<input type="password" class="form-control" id="otp" placeholder="Security Password" name="otp" >                            
+						<label>Line ID :</label>
+						<input type="text" id="m_lineid" autocomplete="off" name="m_lineid" class="form-control" placeholder="Line ID"  value="<?php echo $row['m_lineid']; ?>" >                            
 					</div>
+                                    <div class="col-lg-6 col-md-6 form-group">
+                                                 <label>WhatsApp Number :</label>
+						 <input type="text" id="user_whatsapp" name="user_whatsapp"  class="form-control" placeholder="WhatsApp ID" value="<?php echo $row['m_whatsapp'] ?>">
+                                     </div>
+				</div>
+				 
+								<hr /> 
+				
+				<div class="row form-group">
+					
+				    <div class="col-lg-6 col-md-6 form-group">
+                                         <label>Address :</label>
+                                          <input type="text"  id="user_address" name="user_address" class="form-control " placeholder="Your Address" value="<?php echo $row['m_address'] ?>">
+                                    </div><!-- End .input-group -->
+                                    
+                               
+                                    
+                                    
+                                     
 				</div>
 				
-                                <div class="row form-group">
-                                            <div class="col-lg-12 col-md-12 form-group">
-                                                    <label>Address :</label>
-                                                    <textarea id="address" class="form-control" rows="2" name="address"><?= $m_address; ?></textarea>
-
-                                            </div>
-                                </div>
-                    
-                    
-                                <hr /> 
-				
+                                 
 				<div class="row form-group">
 					
 					<div class="col-lg-4 col-md-4 form-group">                  
 						<label>Bank Name :</label>
 						<input type="text" class="form-control" id="bank_name" placeholder="Bank Name" name="bank_name" 
-						value="<?php echo $m_bank_name; ?>">                            
+						value="<?php echo $row['m_bank_name']; ?>">                            
 					</div>
 					
 					<div class="col-lg-4 col-md-4 form-group">                  
 						<label>Account No :</label>
 						<input type="text" class="form-control" id="bank_account" placeholder="Account No" name="bank_account" 
-						value="<?php echo $m_bank_account_no; ?>">                             
+						value="<?php echo  $row['m_bank_account_no']; ?>">                             
 					</div>
 					
 					<div class="col-lg-4 col-md-4 form-group">                  
 						<label>Bank Branch :</label>
 						<input type="text" class="form-control" id="bank_branch" placeholder="Bank Branch" name="bank_branch" 
-						value="<?php echo $m_bank_branch; ?>">                             
+						value="<?php echo  $row['m_bank_branch']; ?>">                             
 					</div>
-				</div>
-				
-				<div class="row form-group">
-					
-					<div class="col-lg-6 col-md-6 form-group">                  
-						<label>Bitcoin :</label>
-						<input type="text" class="form-control" id="bitcoin" placeholder="Bitcoin" name="bitcoin" 
-						value="<?php echo $m_bitcoin; ?>">                            
-					</div>
-					
-					<div class="col-lg-6 col-md-6 form-group">                  
-						<label>Litecoin :</label>
-						<input type="text" class="form-control" id="litecoin" placeholder="Litecoin" name="litecoin" 
-						value="<?php echo $m_litecoin; ?>">                             
-					</div>
-				</div>
+				</div>	                               
+
+	
 				
 				<hr />
-				
-				<div class="row form-group">
-					
-					<div class="col-lg-4 col-md-4 form-group">                  
-						<label>Line ID :</label>
-						<input type="text" class="form-control" id="line_id" placeholder="Line ID" name="line_id" 
-						value="<?php echo $m_lineid; ?>">                            
-					</div>
-					
-					<div class="col-lg-4 col-md-4 form-group">                  
-						<label>WeChat ID :</label>
-						<input type="text" class="form-control" id="wechat_id" placeholder="WeChat ID" name="wechat_id" 
-						value="<?php echo $m_wechatid; ?>">                             
-					</div>
-					
-					<div class="col-lg-4 col-md-4 form-group">                  
-						<label>WhatsApp :</label>
-						<input type="text" class="form-control" id="whatsapp" placeholder="WhatsApp" name="whatsapp" 
-						value="<?php echo $m_whatsapp; ?>">                             
-					</div>
-				</div>
-				
+                                
+                       
 
 
-              <div class="row">
-				<div class="col-lg-3 col-md-3 form-group"> 
-				  <?php if($m_id != ''){ ?>
-					<button type="submit" class="btn btn-block btn-success">Update Now</button>
-				  <?php } else { ?>
-					<button type="submit" class="btn btn-block btn-success">Add Now</button>
-				  <?php } ?>
-				</div>
-				<div class="col-lg-3 col-md-3 form-group"> 
-					<button type="reset" class="btn btn-block btn-warning">Reset</button>
-				</div>
+              <div  class="row form-group">
+                <div class="col-lg-3 col-md-3 form-group"> 
+                <?php if($row['m_id']!=''){?>
+                    
+                    
+                
+                <button type="submit" class="btn btn-block btn-success">Update Now</button>
+                <?php }else{?>
+                
+                
+                <button type="submit" class="btn btn-block btn-danger">Add New</button>
+                
+                <?php }?>
+                </div>
+                <div class="col-lg-3 col-md-3 form-group"> 
+                        <button type="reset" class="btn btn-block btn-warning">Reset</button>
+                </div>
+                  
+             
               </div>        
 			  
-			  </form>
-            </div>
-            <!-- /.box-body -->
-
-        </div>
+        </form>
+    </div>
+    
+</div>
         
         
         
@@ -259,71 +266,34 @@ if (!empty($_GET['error'])) {
      </div>
      </div>
 	 </div>
- 
-      
+  
+<script>
+    $('#browse_image').on('click', function(e){
+        
+        $('#user_profile_image').click();
+    })
+    $('#user_profile_image').on('change', function(e){
+        var fileInput = this;
+        if(fileInput.files[0]){
+            var reader = new FileReader();
+            reader.onload = function(e){
+                $('#profile_image').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
+
+</script>      
       
   
- </div>
+  </div>
 
-<?php
-	if($_SESSION['supermaster'] != ''){
-		if($m_id != '') { 
-			if($m_master_by != '') {
-		?>
-			<script type="text/javascript">
-			window.onload = function() {
-				var m_master_id =  '<?= $m_master_by; ?>';
-				var m_admin_id = '<?= $m_admin_by; ?>';
-				getAdmin(m_master_id,m_admin_id);
-				
-				var m_reseller_by = '<?= $m_reseller_by; ?>';
-				getReseller(m_admin_id,m_reseller_by);
-				
-				var m_upline = '<?= $m_upline; ?>';
-				getUpline(m_reseller_by,m_upline);
-			}
-			</script>
-		<?php
-			}
-		}
-	} else if($_SESSION['master'] != ''){
-		if($m_id != '') { 
-			if($m_admin_by != '') {
-		?>
-			<script type="text/javascript">
-			window.onload = function() {
-				var m_admin_id =  '<?= $m_admin_by; ?>';
-				var m_reseller_by = '<?= $m_reseller_by; ?>';
-				getReseller(m_admin_id,m_reseller_by);
-				
-				var m_upline = '<?= $m_upline; ?>';
-				getUpline(m_reseller_by,m_upline);
-			}
-			</script>
-		<?php
-			}
-		}
-	} else if($_SESSION['admin'] != '') { 
+ 
 
-		if($m_id != '') { 
-				if($m_reseller_by != '') {
-			?>
-				<script type="text/javascript">
-				window.onload = function() {
-					var m_res_by = '<?= $m_reseller_by; ?>';
-					var m_upline = '<?= $m_upline; ?>';
-					getUpline(m_res_by,m_upline);
-				}
-				</script>
-			<?php
-			}
-		} 
-	}
-?> 
-
-<div>
  <?php
 
 require_once 'footer.php';
+ 
 
 ?>
+ 

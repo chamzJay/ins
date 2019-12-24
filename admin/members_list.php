@@ -13,12 +13,12 @@ include_once './data/members_list_data.php';
  <section >
      <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">PLAYER LIST</h3> </div>
+                    <h3 class="text-primary" style="text-transform: uppercase;"><?=$type?> LIST</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Player Group</a></li>
-                        <li class="breadcrumb-item active">Player List</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)"><?=$type?> Group</a></li>
+                        <li class="breadcrumb-item active"><?=$type?> List</li>
                     </ol>
                 </div>
             </div>
@@ -72,7 +72,7 @@ include_once './data/members_list_data.php';
                 <tr>
                   <td><?php echo $i++; ?></td>
                   
-                  <td><a href="user_details.php?user_id=<?php echo $row['m_id'];?>"><?php  
+                  <td><a href="members_add.php?user_id=<?php echo $row['m_id'];?>"><?php  
                   if($row['m_username']!=''){
                       echo $row['m_username'];
                       
