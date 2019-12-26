@@ -12,6 +12,18 @@ if (!empty($_GET['error'])) {
     $error = '';
 }
 
+
+if($error==2){
+   echo '<script>  swal("Sucessfully Updated", "Please Navigate to Exit", "success");</script>';
+    
+}
+
+if($error==4){
+   echo '<script>  swal("Nothing  Updated", "Please check", "warning");</script>';
+    
+}
+
+
 ?>
 
   <!-- Content Wrapper. Contains page content -->
@@ -21,11 +33,11 @@ if (!empty($_GET['error'])) {
     
      <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary" style="text-transform: uppercase;"><?=$row['m_type']?> Details</h3> </div>
+                    <h3 class="text-primary" style="text-transform: uppercase;"><?=$m_type?> Details</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0)"><?=$row['m_type']?> Group</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)"><?=$m_type?> Group</a></li>
                         <li class="breadcrumb-item active"><?=$row['m_type']?>  Detail</li>
                     </ol>
                 </div>
@@ -49,7 +61,7 @@ if (!empty($_GET['error'])) {
                                     
                                 }else{
                                     
-                                     echo '<h2>Add New '.$type.'</h2>';
+                                     echo '<h2>Add New '.$m_type.'</h2>';
                                 }
                                
                                 ?>
@@ -94,7 +106,7 @@ if (!empty($_GET['error'])) {
                 
                 <form action="data/register_members.php" class="templatemo-login-form" method="post" enctype="multipart/form-data" name="update_members">
                 <input type="hidden" name="action" value="register">
-                
+                <input type="hidden" name="m_type" value="<?=$m_type?>">
             <?php }?>
 			<div class="row form-group">						
 				<div class="col-lg-6 col-md-6 form-group">
@@ -136,6 +148,7 @@ if (!empty($_GET['error'])) {
 				     </div>
                                     <?php } ?>
                                     
+                                    <?php if($row['m_type']=='user'){ ?>
                                             <div class="col-lg-6 col-md-6 form-group">                  
                                                           <label>Refer By :</label>
 
@@ -145,7 +158,7 @@ if (!empty($_GET['error'])) {
                                                                     ?>
                                                          </select>
                                           </div>
-                                    
+                                    <?php }?>
 				</div>
                                     
                                 <hr>
@@ -164,7 +177,7 @@ if (!empty($_GET['error'])) {
                                     
                                    <div class="col-lg-6 col-md-6 form-group">                  
 						<label>Date of Birth :</label>
-						<input type="date" class="form-control" id="m_dob" placeholder="Date of Birth" name="m_dob" value="<?php echo $row['m_dob']; ?>" >                            
+                                                <input type="<?php if($row['m_id']==''){echo "date";}else{echo "text";} ?>" class="form-control date" id="m_dob" placeholder="YYYY-MM-DD" name="m_dob" value="<?php echo $row['m_dob']; ?>" >                            
 					</div>
                                     
                                     <div class="col-lg-6 col-md-6 form-group">                  
@@ -183,7 +196,7 @@ if (!empty($_GET['error'])) {
 					</div>
                                     <div class="col-lg-6 col-md-6 form-group">
                                                  <label>WhatsApp Number :</label>
-						 <input type="text" id="user_whatsapp" name="user_whatsapp"  class="form-control" placeholder="WhatsApp ID" value="<?php echo $row['m_whatsapp'] ?>">
+						 <input type="text" id="m_whatsapp" name="m_whatsapp"  class="form-control" placeholder="WhatsApp ID" value="<?php echo $row['m_whatsapp'] ?>">
                                      </div>
 				</div>
 				 
@@ -193,13 +206,9 @@ if (!empty($_GET['error'])) {
 					
 				    <div class="col-lg-6 col-md-6 form-group">
                                          <label>Address :</label>
-                                          <input type="text"  id="user_address" name="user_address" class="form-control " placeholder="Your Address" value="<?php echo $row['m_address'] ?>">
+                                          <input type="text"  id="m_address" name="m_address" class="form-control " placeholder="Your Address" value="<?php echo $row['m_address'] ?>">
                                     </div><!-- End .input-group -->
-                                    
-                               
-                                    
-                                    
-                                     
+                                 
 				</div>
 				
                                  
@@ -207,19 +216,18 @@ if (!empty($_GET['error'])) {
 					
 					<div class="col-lg-4 col-md-4 form-group">                  
 						<label>Bank Name :</label>
-						<input type="text" class="form-control" id="bank_name" placeholder="Bank Name" name="bank_name" 
-						value="<?php echo $row['m_bank_name']; ?>">                            
+						<input type="text" class="form-control" id="m_bank_name" placeholder="Bank Name" name="m_bank_name" value="<?php echo $row['m_bank_name']; ?>">                            
 					</div>
 					
 					<div class="col-lg-4 col-md-4 form-group">                  
 						<label>Account No :</label>
-						<input type="text" class="form-control" id="bank_account" placeholder="Account No" name="bank_account" 
+                                                <input type="number" class="form-control" id="m_bank_account_no" placeholder="Account No" name="m_bank_account_no" 
 						value="<?php echo  $row['m_bank_account_no']; ?>">                             
 					</div>
 					
 					<div class="col-lg-4 col-md-4 form-group">                  
 						<label>Bank Branch :</label>
-						<input type="text" class="form-control" id="bank_branch" placeholder="Bank Branch" name="bank_branch" 
+						<input type="text" class="form-control" id="m_bank_branch" placeholder="Bank Branch" name="m_bank_branch" 
 						value="<?php echo  $row['m_bank_branch']; ?>">                             
 					</div>
 				</div>	                               

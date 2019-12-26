@@ -15,6 +15,8 @@ if($_SESSION['login']&& $_SESSION['admin'] != ''){
         
         $sql = "select * from members where m_type="."'".$type."'";	
         $result = mysqli_query($conn, $sql);
+        
+        
     }
 	
 

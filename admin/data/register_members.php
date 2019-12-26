@@ -1,5 +1,5 @@
 <?php
-    include_once '../../conn.php';
+        include_once '../../conn.php';
 	include_once 'functions.php';
 
 	//Fetching Values from URL
@@ -11,67 +11,31 @@
         $m_name                     = $_POST['m_name'];
         $m_dob                      = $_POST['m_dob'];
         $m_phone                    = $_POST['m_phone'];
-        $m_lineid                   = $_POST['m_line_id'];
-        
-        
-        
-	
-	$m_phone_country = $_POST['phone_country'];
-	 
-	
-	$m_admin_by = $_POST['admin_by'];
-	$m_master_by = $_POST['master_by'];
-	$m_reseller_by = $_POST['reseller'] == '' ? 0 : $_POST['reseller'];
-	$m_upline = $_POST['upline'] == '' ? 0 : $_POST['upline'];
-	$m_referal = md5($_POST['user_name']);
-        $m_status = $_POST['status'];
-	$m_otp = $_POST['otp'];
-	$m_bank_name = $_POST['bank_name'];
-	$m_bank_account_no = $_POST['bank_account'];
-	$m_bank_branch = $_POST['bank_branch'];
-	$m_bitcoin = $_POST['bitcoin'];
-	$m_litecoin = $_POST['litecoin'];
-	
-	$m_wechatid = $_POST['wechat_id'];
-	$m_whatsapp = $_POST['whatsapp'];
-        $m_address = $_POST['address'];
-        $m_type=$_POST['user_type'];
-        
-	$user_email         = $_POST['user_email'];
-	$user_phone         = $_POST['user_phone'];
-	$user_dob           = $_POST['user_dob'];
-	$user_otp               = $_POST['otp'];
-	$user_bank_name          = $_POST['bank_name'];
-	$user_bank_account_no   = $_POST['bank_account'];
-	$user_bank_branch           = $_POST['bank_branch'];
-	$user_bitcoin           = $_POST['bitcoin'];
-	$user_litecoin          = $_POST['litecoin'];
-	$user_lineId              = $_POST['user_lineId'];
-	$user_wechatid            = $_POST['wechat_id'];
-	$user_whatsapp           = $_POST['user_whatsapp'];
+        $m_lineid                   = $_POST['m_lineid'];
+        $m_whatsapp                 = $_POST['m_whatsapp'];
+        $m_address                  = $_POST['m_address'];
+        $m_bank_name                = $_POST['m_bank_name'];
+        $m_bank_account_no          = $_POST['m_bank_account_no'];
+        $m_bank_branch              = $_POST['m_bank_branch'];
+        $m_phone_country            = $_POST['m_phone_country'];
+        $m_admin_by                 = $_POST['m_admin_by'];
+	$m_master_by                = $_POST['m_master_by'];
+	$m_reseller_by              = $_POST['m_reseller'];
+	$m_upline                   = $_POST['m_upline'];
+	$m_referal                  = md5($_POST['m_name']);
+        $m_status                   = $_POST['m_status'];
+	$m_otp                      = $_POST['m_otp'];
+	$m_bitcoin                  = $_POST['m_bitcoin'];
+	$m_litecoin                 = $_POST['litecoin'];
+        $m_wechatid                 = $_POST['m_wechat_id'];
+        $m_type                     = $_POST['m_type'];
+	$m_currency                 = $_POST['m_currency'];
        
-        $user_pass               =$_POST['user_pass'];
-        
-        $user_lname              =$_POST['user_lname'];
-        $user_pic                =$_POST['user_pic'];
-       
-        $user_gpay_balance      =$_POST['gpay_balance'];
-        $user_country            =$_POST['user_country'];
-        $user_state              =$_POST['user_state'];
-        $user_city               =$_POST['user_city'];
-        $user_postal_code          =$_POST['user_postal_code'];
-        $user_register_date      =$_POST['user_register_date'];
-        $user_end_date           =$_POST['user_end_date'];
-        $user_register_by        =$_POST['user_register_by'];
-        $user_updated_by         =$_POST['user_updated_by'];
-        $user_updated_date       =$_POST['user_updated_date'];
-        $user_type               =$_POST['user_type'];
-        $user_level              =$_POST['user_level'];
-        $user_address            = $_POST['user_address'];
-        $new_ref                =$_POST['new_ref'];
-        $user_currency          =$_POST['currency'];
-        $action                 = $_POST['action'];               
+        //Action 
+        $action                     = $_POST['action'];               
     
+        
+        //Other Data 
         if($_SESSION['master'] != ''){
 		$register_by = $_SESSION['master'];
 	} else if($_SESSION['supermaster'] != '') {
@@ -82,14 +46,15 @@
 		$register_by = $_SESSION['reseller'];
 	}
         
-
+        // pass 
+        
 	$register_by_id = getUseridbyUsername($register_by, $conn);
 	$hash_password = password_hash($m_password, PASSWORD_DEFAULT);
 	$hash_otp = password_hash($m_otp, PASSWORD_DEFAULT);
 	
 	
         
-        
+        // image location 
         $target_dir = "../../uploads/profile/";
         
         
@@ -97,16 +62,14 @@
     if ($action=='register') {
            
         
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-        if(basename($_FILES["fileToUpload"]["name"]) != ''){
-            $newfilename = round(microtime(true)) . '.' . $uploadFileType;
-            if($uploadFileType != "jpg" && $uploadFileType != "png" && $uploadFileType != "jpeg" && $uploadFileType != "gif" && $uploadFileType != "JPG" && $uploadFileType != "PNG" && $uploadFileType != "JPEG" && $uploadFileType != "GIF") {
-                $fail = "1";
-            } else {
-                $fail = "0"; 
-            }
-        }
+        if(basename($_FILES["user_profile_image"]["name"]) != ''){
+
+            $m_img=$target_dir.reSize($_FILES['user_profile_image']['tmp_name'],$_FILES['user_profile_image']['name'],1);  
+
+         }else{
+             
+             $m_img='';
+         }
 	
         
 	if($m_username != '' && $m_password != ''){
@@ -122,29 +85,17 @@
 			   if (mysqli_num_rows($result) > 0) {
 					header('Location: ../members_add.php?error=1');
 			   } else {
-					$sql = "INSERT INTO members (m_address,m_username, m_password, m_name, m_email, m_dob, m_phone,m_type,m_pic) VALUES ('".$m_address."','".$m_username."', '".$hash_password."', '".$m_fullname."', '".$m_email."', '".$m_dob."', '".$m_phone."', '".$m_type."', '". $newfilename."')";
+					$sql = "INSERT INTO members (m_address,m_username, m_password, m_name, m_email, m_dob, m_phone,m_type,m_pic,m_upline) VALUES ('".$m_address."','".$m_username."', '".$hash_password."', '".$m_fullname."', '".$m_email."', '".$m_dob."', '".$m_phone."', '".$m_type."', '". $m_img."', '". $user_member_reference."')";
                                         //echo $sql;
                                        // exit();
                                        
 					mysqli_query($conn, $sql);
 					
-                                        $arrrecid = mysqli_query("SELECT @@IDENTITY AS recid");
-                                        $row = mysqli_fetch_assoc($arrrecid);
-                                        $recid = mysqli_insert_id($conn);
-                                        
-					move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir. $newfilename);
-					 
-					header('Location: ../members_list.php?type='.$m_type);
+					header('Location: ../members_list.php?type='.$m_type.'&error=5');
 					
 			   }
 
-                           //insert g-poin as a reward point
-                           $admin_setting = adminSettings($conn);
-                           $reward_amount = $admin_setting['as_reward_amount'];
-
-                 
-                           
-                           
+                          
                            
 			}
 				
@@ -154,7 +105,7 @@
 	 
 
                 
-    }elseif ($action=='update') {
+}elseif ($action=='update') {
         
         
                
@@ -185,10 +136,10 @@
             
             
             if (mysqli_query($conn, $sql)) {
-                   $error='0';
+                   $error=2;
                   
                 } else {
-                     $error='1';
+                     $error=1;
                 }
             
             
@@ -232,7 +183,7 @@
           if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -250,7 +201,7 @@
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -265,7 +216,7 @@
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -275,13 +226,13 @@
            
     }
     
-      if($user_fname != ''){
+      if($m_name != ''){
 		 
-        $sql = "update members set m_name='".$user_fname."'where m_id='".$user_id."'";
+        $sql = "update members set m_name='".$m_name."'where m_id='".$user_id."'";
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -297,7 +248,7 @@
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -314,7 +265,7 @@
           if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -330,14 +281,14 @@
         
            
     }
-      if($user_lineId != ''){
+      if($m_lineid != ''){
 		 
-        $sql = "update  members set  m_lineid='".$user_lineId."'where m_id='".$user_id."'";
+        $sql = "update  members set  m_lineid='".$m_lineid."'where m_id='".$user_id."'";
         
         if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -346,15 +297,15 @@
         
            
     }
-      if($user_whatsapp != ''){
+      if($m_whatsapp != ''){
            
 		 
-        $sql = "update  members set m_whatsapp='".$user_whatsapp."'where m_id='".$user_id."'";
+        $sql = "update  members set m_whatsapp='".$m_whatsapp."'where m_id='".$user_id."'";
         
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -368,7 +319,7 @@
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -378,17 +329,17 @@
            
     }
     
-    if($user_bank_name != ''){
+    if($m_bank_name != ''){
         
         
 		 
-        $sql = "update  members set m_bank_name='".$user_bank_name."'where m_id='".$user_id."'";
+        $sql = "update  members set m_bank_name='".$m_bank_name."'where m_id='".$user_id."'";
         
           
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -398,13 +349,13 @@
            
     }
     
-      if($user_bank_account_no != ''){
+      if($m_bank_account_no != ''){
 		 
-        $sql = "update  members set m_bank_account_no='".$user_bank_account_no."'where m_id='".$user_id."'";
+        $sql = "update  members set m_bank_account_no='".$m_bank_account_no."'where m_id='".$user_id."'";
          if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
@@ -414,29 +365,27 @@
            
     }
     
-      if($user_bank_branch != ''){
+      if($m_bank_branch != ''){
 		 
-        $sql = "update  members set m_bank_branch='".$user_bank_branch."'where m_id='".$user_id."'";
+        $sql = "update  members set m_bank_branch='".$m_bank_branch."'where m_id='".$user_id."'";
           if (mysqli_query($conn, $sql)) {
                         
                    
-                    $error=0;
+                    $error=2;
                     
                 } else {
                     
-                    $error=1;
+                    $error=0;
                 }
         
            
     }
    
-   function UniqueRandomNumbersWithinRange($min, $max, $quantity) {
-    $numbers = range($min, $max);
-    shuffle($numbers);
-    return array_slice($numbers, 0, $quantity);
-}
+     if($error==''){
+         $error=4;
+     }
 
-
+    
     header('Location: ../members_add.php?user_id='.$user_id.'&error='.$error);
 
         
@@ -444,9 +393,76 @@
         
         
         
+}  
+
+   function UniqueRandomNumbersWithinRange($min, $max, $quantity) {
+    $numbers = range($min, $max);
+    shuffle($numbers);
+    return array_slice($numbers, 0, $quantity);
+}
+                
+                
+                
+function reSize($file,$var_file,$var_name){
     
-}           
-                
-                
-                
-?>
+        $sourceProperties = getimagesize($file);
+        $fileNewName = time().$var_name;
+        $folderPath = "../../uploads/profile/";
+        $ext = pathinfo($var_file, PATHINFO_EXTENSION);
+
+        $imageType = $sourceProperties[2];
+
+        switch ($imageType) {
+
+
+            case IMAGETYPE_PNG:
+                $imageResourceId = imagecreatefrompng($file); 
+                $targetLayer = imageResize($imageResourceId,$sourceProperties[0],$sourceProperties[1]);
+                imagepng($targetLayer,$folderPath. $fileNewName.".". $ext);
+                break;
+
+
+            case IMAGETYPE_GIF:
+                $imageResourceId = imagecreatefromgif($file); 
+                $targetLayer = imageResize($imageResourceId,$sourceProperties[0],$sourceProperties[1]);
+                imagegif($targetLayer,$folderPath. $fileNewName.".". $ext);
+                break;
+
+
+            case IMAGETYPE_JPEG:
+                $imageResourceId = imagecreatefromjpeg($file); 
+                $targetLayer = imageResize($imageResourceId,$sourceProperties[0],$sourceProperties[1]);
+                imagejpeg($targetLayer,$folderPath. $fileNewName.".". $ext);
+                break;
+
+
+            default:
+                echo "Invalid Image type.";
+                exit;
+                break;
+        }
+
+        $file_save_as=  $fileNewName. ".". $ext;   
+        
+        
+        move_uploaded_file( $folderPath.$file_save_as);
+       
+        return $file_save_as;     
+    
+    
+} 
+    
+    
+ function imageResize($imageResourceId,$width,$height) {
+
+
+    $targetWidth =500;
+    $targetHeight =500;
+
+
+    $targetLayer=imagecreatetruecolor($targetWidth,$targetHeight);
+    imagecopyresampled($targetLayer,$imageResourceId,0,0,0,0,$targetWidth,$targetHeight, $width,$height);
+
+
+    return $targetLayer;
+}  

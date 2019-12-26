@@ -2,6 +2,24 @@
 include_once './header.php';
 include_once './sidebar.php';
 include_once './data/members_list_data.php';
+
+
+
+
+
+if (!empty($_GET['error'])) {
+    $error = $_GET['error']; 
+} else {
+    $error = '';
+}
+
+
+if($error==5){
+   echo '<script>  swal("Sucessfully Added", "Please click to update", "success");</script>';
+    
+}
+
+
 ?>
 
 
@@ -28,7 +46,7 @@ include_once './data/members_list_data.php';
 
         <div class="card">
 	<div class="card-body">
-	   <h4 class="card-title">PLAYER LIST</h4>
+	   <h4 class="card-title" style="text-transform: uppercase;"><?=$type?> LIST</h4>
  
             <div class="table-responsive m-t-40">
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -68,7 +86,12 @@ include_once './data/members_list_data.php';
 					} else{
 						$m_status = 'Inactive';
 					}
-				?>
+				
+                                  $find_upline="select members.m_name from members where m_id=".$row['m_upline'];      
+                                  $m_upline = mysqli_query($conn, $find_upline); 
+                                  $row_upline=mysqli_fetch_assoc( $m_upline);
+                                  $m_upline_name= $row_upline['m_name'];
+                             ?>
                 <tr>
                   <td><?php echo $i++; ?></td>
                   
@@ -98,9 +121,9 @@ include_once './data/members_list_data.php';
                   
                   ?></a></td>
                  
-                  <td><?php echo $row['register_date']; ?></td>
+                  <td><?php echo $row['m_register_date']; ?></td>
 		
-                  <td><?php echo $row['upline_username']; ?></td>
+                  <td><?php echo $m_upline_name; ?></td>
                   <td><?php if($row['m_status'] == '1'){ ?><button type="button" id="btnm<?php echo $row['m_id'];?>" class="btn btn-block  btn-danger" onclick="deleteUser('<?php echo $row['m_id'];?>', 'm','m_id',<?php echo $type;?>);">Deactivate</button>
 
                                 <?php }else{?>

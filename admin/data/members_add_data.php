@@ -4,9 +4,9 @@
 include_once 'functions.php';
 
 if (isset($_GET['type'])) {
-    $type = $_GET['type']; 
+    $m_type = $_GET['type']; 
 } else {
-   $type = ''; 
+   $m_type = ''; 
 } 
 
 if (isset($_GET['user_id'])) {
