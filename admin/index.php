@@ -1,35 +1,13 @@
 <?php 
-
+session_start();
 include_once './top_header.php';
+include_once 'data/database.php';
 
 
 if (isset($_GET['error'])) {
     $error = $_GET['error']; 
 } else {
    $error = ''; 
-}
-
-if(isset($_GET['act'])){
-    $act= $_GET['act'];
-    
-}else{
-    $act='';
-}
-
-if($act=='ok'){
-   echo '<script>  swal("Sucessfully Activated", "Please Update your account info", "success");</script>';
-    // echo '<script> alert("ok");</script>';
-}
-
-if($error=='1'){
- // echo '<script>  swal("Please Proceed to Login", "View Your Account", "warning");</script>';
-echo '<script> alert("User Id not register");</script>';
-}
-
-
-if($error=='2'){
-  echo '<script>  swal("Please Contact Admin", "activate your account", "warning");</script>';
-
 }
 
 ?>
@@ -49,6 +27,8 @@ if($error=='2'){
                             <div class="login-form">
                                 <h4>System Login</h4>
                                   <div class="col-lg-4 col-md-4">
+                                      
+                                   
 
                                     <?php if($success != '') { ?>
                                             <div class="row">
@@ -68,17 +48,44 @@ if($error=='2'){
                                             </div>
                                     <?php } ?>
                                     </div>  
+                                     <div id="error_display" class="text-center text-danger">
+                                            <?php
+
+                                            if($error == '0'){
+                                                echo "Please fill-in the Username and Password";
+                                            } else if($error == '1'){
+                                            echo "Invalid Username /Password/User Type or Account not Active. Please contact the Administrator"; 
+                                            } else if($error == '3'){
+                                                echo "Users loging restricted"; 
+                                            } else if($error == '2'){
+                                                echo "Incorrect Password"; 
+                                            } 
+
+                                            ?>
+                                        </div>
                                 <form id="fmlogin" name="frmlogin" action="data/login_data.php" method="post">
                                     
                                     
                                     
                                     <div class="form-group">
                                         <label>User Name</label>
-                                        <input type="text"   id="user_name" name="user_name" class="form-control" placeholder="User Name">
+                                        <input type="text"   id="user_name" name="user_name" class="form-control" placeholder="User Name" required >
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input type="password"  id="user_pass" name="user_pass" class="form-control" >
+                                        <input type="password"  id="user_pass" name="user_pass" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Select User Type</label>
+                             
+                                            <select class="form-control" name="user_type" id="user_type">
+                                                      <?php                                                             
+                                                         $database->loadAllUsersType(2);
+                                                      ?>
+                                           </select>
+
+                                        
                                     </div>
 
                                     <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Sign in</button>
@@ -92,22 +99,6 @@ if($error=='2'){
         </div>
 
     </div>
-    <!-- End Wrapper -->
 
-    <!-- All Jquery -->
-    <script src="js/lib/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="js/lib/bootstrap/js/popper.min.js"></script>
-    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
-    <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
-
-</body>
-
-</html>
+                <!-- footer -->
+<?= include_once './footer.php'; ?>    

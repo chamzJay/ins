@@ -1,5 +1,42 @@
-<footer class="footer"> © 2018 CoinDash All Right Reserved.</footer>
-            <!-- End footer -->
+<footer class="footer"> © 2020 CoinDash All Right Reserved.</footer>
+  <script type="text/javascript">
+    
+ function logout(){
+
+   
+    swal({
+          title: "Are You Sure ",
+          text: "Loging Out",
+          icon: "warning",
+          buttons: [
+            'No Cancel It',
+            'I am Sure'
+          ],
+       dangerMode: true
+        }).then(function(isConfirm) {
+          if (isConfirm) {
+            swal({
+              title: 'Log Out',
+              text: 'Thank You',
+              icon: 'success'
+            }).then(function() {
+            
+              window.location='data/logout.php';             
+                        
+                        
+            });
+          } else {
+              
+               
+            swal('Cancelled', 'User Not Login Out', 'error');
+          }
+        });
+  
+   
+}
+    
+    
+    </script>          <!-- End footer -->
        
         <!-- End Page wrapper  -->
     
@@ -32,6 +69,17 @@
   
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
+    
+    
+    <script src="js/lib/datatables/datatables.min.js"></script>
+    <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="js/lib/datatables/datatables-init.js"></script>
 </body>
 
 </html>
