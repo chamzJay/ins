@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 26, 2019 at 07:21 PM
+-- Generation Time: Jan 15, 2020 at 10:41 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -289,6 +289,26 @@ INSERT INTO `chart_data` (`cd_id`, `cd_value`, `cd_time`, `cd_created_by`, `conf
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `company`
+--
+
+DROP TABLE IF EXISTS `company`;
+CREATE TABLE IF NOT EXISTS `company` (
+  `id` int(11) NOT NULL,
+  `cp_name` text,
+  `cp_logo` text,
+  `cp_registter_day` varchar(255) DEFAULT NULL,
+  `cp_phone` text,
+  `cp_address` text,
+  `updated_id` int(11) NOT NULL DEFAULT '0',
+  `created_dt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_dt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `cp_status` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `country`
 --
 
@@ -449,40 +469,6 @@ INSERT INTO `latest_news` (`ln_id`, `ln_title`, `ln_date`, `ln_description`, `ln
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lottoconfig`
---
-
-DROP TABLE IF EXISTS `lottoconfig`;
-CREATE TABLE IF NOT EXISTS `lottoconfig` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `enddate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `drawno` varchar(50) NOT NULL,
-  `cat` varchar(255) DEFAULT NULL,
-  `lott_date` enum('Wednesday','Tuesday','Saturday') NOT NULL,
-  `minnum` int(11) NOT NULL,
-  `maxnum` int(11) NOT NULL,
-  `colcnt` int(11) NOT NULL,
-  `rowcnt` int(11) NOT NULL,
-  `amount` float NOT NULL DEFAULT '0',
-  `created_id` int(11) NOT NULL DEFAULT '0',
-  `updated_id` int(11) NOT NULL DEFAULT '0',
-  `created_dt` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_dt` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `factive` int(11) DEFAULT '0',
-  `lotto_pic` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `lottoconfig`
---
-
-INSERT INTO `lottoconfig` (`id`, `enddate`, `drawno`, `cat`, `lott_date`, `minnum`, `maxnum`, `colcnt`, `rowcnt`, `amount`, `created_id`, `updated_id`, `created_dt`, `updated_dt`, `factive`, `lotto_pic`) VALUES
-(9, '2019-12-27 01:59:00', 'A111', 'lotto-1', 'Wednesday', 1, 9, 2, 3, 1, 0, 0, '2019-12-18 11:07:54', '2019-12-18 11:07:54', 1, '../../uploads/lotto/15766384741.jpg');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `lottodetails`
 --
 
@@ -599,8 +585,8 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`m_id`, `m_username`, `m_password`, `m_email`, `m_name`, `m_dob`, `m_phone_country`, `m_phone`, `m_pic`, `m_otp`, `m_bank_name`, `m_bank_account_no`, `m_bank_branch`, `m_bitcoin`, `m_litecoin`, `m_lineid`, `m_wechatid`, `m_whatsapp`, `m_register_date`, `m_end_date`, `m_referal`, `m_master_by`, `m_admin_by`, `m_reseller_by`, `m_upline`, `m_register_by`, `m_updated_by`, `m_updated_date`, `m_updated_type`, `m_status`, `m_address`, `last_act`, `m_lst_payreward`, `m_side`, `m_type`, `m_level`, `m_new_ref`, `m_currency`) VALUES
-(798, 'amila', '$2y$10$PmyxVa5ljsKyKb8IcrLUvuyxQtugKD.gUht63KjdyQ5ROpB7uBW9S', 'dsa.amilashanaka@gmail.com', 'Amila', '2019-11-08', NULL, '23423', '157735633515.jpg', '4681', 'ddd', '1322313', 'retretret', NULL, NULL, '3122432435345', NULL, '234324', '2019-11-04 09:11:00', NULL, NULL, NULL, NULL, 0, '800', NULL, NULL, '2019-12-26 18:32:14', NULL, 1, 'no 56576, la1  xxx, bbbb1', NULL, NULL, NULL, 'delegator', 0, '1234', 0),
-(800, 'scgc', '$2y$10$Cg.YhRYbP7AJzsRFhg5o7.fhYR3hzbKK2Tv9/bVH5DxT7YIj88LAW', 'scgc2722@gmail.com', 'Scgc', NULL, NULL, '43254532', NULL, '7315', 'vhhh', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-07 11:11:00', NULL, NULL, NULL, NULL, NULL, '798', NULL, NULL, '2019-12-24 16:23:03', NULL, 1, NULL, NULL, NULL, NULL, 'delegator', 2, NULL, 0),
+(798, 'amila', '$2y$10$PmyxVa5ljsKyKb8IcrLUvuyxQtugKD.gUht63KjdyQ5ROpB7uBW9S', 'dsa.amilashanaka@gmail.com', 'Amila', '2019-11-08', NULL, '23423', '157735633515.jpg', '4681', 'ddd', '1322313', 'retretret', NULL, NULL, '3122432435345', NULL, '234324', '2019-11-04 09:11:00', NULL, NULL, NULL, NULL, 0, '800', NULL, NULL, '2020-01-04 11:53:03', NULL, 1, 'no 56576, la1  xxx, bbbb1', NULL, NULL, NULL, 'Delegator', 0, '1234', 0),
+(800, 'scgc', '$2y$10$Cg.YhRYbP7AJzsRFhg5o7.fhYR3hzbKK2Tv9/bVH5DxT7YIj88LAW', 'scgc2722@gmail.com', 'Scgc', NULL, NULL, '43254532', NULL, '7315', 'vhhh', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-07 11:11:00', NULL, NULL, NULL, NULL, NULL, '798', NULL, NULL, '2020-01-04 11:53:29', NULL, 1, NULL, NULL, NULL, NULL, 'Delegator', 2, NULL, 0),
 (802, 'eewde', '$2y$10$mHqZTnqDKz//zJaAzuMzSeHdcDOufX0fLt5tKzDVQvJS2u3yxZMAa', NULL, 'wfewf', NULL, NULL, '123123', NULL, '2157', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-07 10:12:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-24 16:23:11', NULL, 1, NULL, NULL, NULL, NULL, 'delegator', 1, '8898', 0),
 (803, 'xxx', '$2y$10$tb3Wp20s79z6e8YUwfFhMOcsPLDxJ3QxzxPyUxREMgpERu.aVhB4q', NULL, 'wefewfw', NULL, NULL, '1231234', '157570632059.jpg', '9392', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-07 10:12:00', NULL, NULL, NULL, NULL, NULL, '800', NULL, NULL, '2019-12-12 21:24:38', NULL, 1, NULL, NULL, NULL, NULL, 'Player', 3, '2175', 0),
 (804, 'saman', '$2y$10$WCnHITaaD7dtbsZ.xYEmZ.X9l0oqxEBr3vlCFeHj7uoLhM95UtP8S', NULL, 'wfef', NULL, NULL, '12323434324', NULL, '4372', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-07 02:12:00', NULL, NULL, NULL, NULL, NULL, '798', NULL, NULL, '2019-12-14 13:00:05', NULL, 1, NULL, NULL, NULL, NULL, 'Player', 2, '6472', 0),
@@ -620,7 +606,7 @@ INSERT INTO `members` (`m_id`, `m_username`, `m_password`, `m_email`, `m_name`, 
 (818, 'dg5', '$2y$10$soCr5yJrWcmIFTWbv9M5KecyXC17ox8HxFgl5DH66AophvGCM6hJ2', 'wfwefw@gmail.com', '', '2019-12-19', NULL, '23423', '../../uploads/profile/15772316211.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-25 07:53:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-25 07:53:41', NULL, 1, 'ssfsdfs', NULL, NULL, NULL, 'delegator', 0, NULL, 0),
 (819, 'dg6', '$2y$10$NA2pepzBPUpvGc/vntWGyevntdNTh/i6E7et7P.CGhbMq5rJ3fKR.', 'dg@dg.com', '', '2019-12-21', NULL, '23423', '../../uploads/profile/15772317401.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-25 07:55:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-25 07:55:40', NULL, 1, 'ssfsdfs', NULL, NULL, NULL, 'delegator', 0, NULL, 0),
 (820, 'dg7', '$2y$10$iB1Fqtkb2tAHLPX/rgRZLeu/CsWYH5DpCc08bkxtkNofwsxITBZC.', 'wfwefw@gmail.com', '', '', NULL, '', '../../uploads/profile/15772319751.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-25 07:59:35', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-25 07:59:35', NULL, 1, '3444444453', NULL, NULL, NULL, 'delegator', 0, NULL, 0),
-(821, 'us1', '$2y$10$lsV2o8g19gegONGAGNS9Qubs1iYO0nctcttRXq2Ic67KoAmgUZ6Zm', 'wfwefw@gmail.com', 'DG1 Name ', '2019-12-12', NULL, '23423', '../../uploads/profile/15772329781.jpg', NULL, 'cimb', '77979799', 'kl', NULL, NULL, '99977', NULL, '23432', '2019-12-25 08:16:18', NULL, NULL, NULL, NULL, NULL, '817', NULL, NULL, '2019-12-25 11:19:58', NULL, 1, '34324', NULL, NULL, NULL, 'user', 0, NULL, 0);
+(821, 'us1', '$2y$10$lsV2o8g19gegONGAGNS9Qubs1iYO0nctcttRXq2Ic67KoAmgUZ6Zm', 'wfwefw@gmail.com', 'DG1 Name ', '2019-12-12', NULL, '23423', '../../uploads/profile/15772329781.jpg', NULL, 'cimb', '77979799', 'kl', NULL, NULL, '99977', NULL, '23432', '2019-12-25 08:16:18', NULL, NULL, NULL, NULL, NULL, '816', NULL, NULL, '2020-01-04 06:50:55', NULL, 1, '34324', NULL, NULL, NULL, 'user', 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1944,15 +1930,16 @@ CREATE TABLE IF NOT EXISTS `user_cat` (
   `cat_level` int(11) DEFAULT '0',
   `status` varchar(5) DEFAULT '0',
   PRIMARY KEY (`usr_cat_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=147 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=148 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_cat`
 --
 
 INSERT INTO `user_cat` (`usr_cat_id`, `cat_name`, `main_cat`, `ref_per`, `cat_level`, `status`) VALUES
-(142, 'delegator', 'Admin', 10, 1, '1'),
-(143, 'user', 'delegator', 10, 2, '1');
+(142, 'Delegator', 'Admin', 10, 1, '1'),
+(143, 'User', 'delegator', 10, 2, '1'),
+(147, 'Admin', 'Supermaster', 0, 0, '1');
 
 -- --------------------------------------------------------
 
